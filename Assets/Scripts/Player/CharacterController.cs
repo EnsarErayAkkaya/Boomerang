@@ -89,4 +89,9 @@ public class CharacterController : MonoBehaviour
         }
         return hit.collider != null;
     }
+
+    public void Die()
+    {
+        gameObject.SetActive(false);
+    }
 }

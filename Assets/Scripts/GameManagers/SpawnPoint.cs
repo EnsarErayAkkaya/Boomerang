@@ -7,7 +7,6 @@ public class SpawnPoint : MonoBehaviour
 {
     public GameObject character;
     public GameObject boomerang;
-    public GameObject grabCanvas;
     public GameObject destroyers;
 
     public int grabCount;
@@ -16,7 +15,6 @@ public class SpawnPoint : MonoBehaviour
     {
         var boomerangInstance = Instantiate(boomerang, transform.position, Quaternion.identity).GetComponent<Boomerang>();
 
-        Instantiate(grabCanvas);
         Instantiate(destroyers);
 
         SaveService.LoadGame();
