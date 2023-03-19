@@ -1,10 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
+using static UnityEngine.UI.Image;
 
 public class Laser : MonoBehaviour
 {
     [SerializeField] private Vector3 laserLocalTarget;
+    [SerializeField] private float laserWidth;
+    [SerializeField] private LayerMask laserLayerMask;
 
     [SerializeField] private float stayActiveSecond;
     [SerializeField] private float stayDeactiveSecond;
@@ -19,42 +24,62 @@ public class Laser : MonoBehaviour
     [SerializeField] private ParticleSystem laserCreateParticle;
     [SerializeField] private ParticleSystem laserEndBeamParticle;
 
-    private WaitForEndOfFrame endOfFrame;
-
     private void Start()
     {
-        endOfFrame = new WaitForEndOfFrame();
-
         StartCoroutine(MainEnumerator());
     }
 
     private IEnumerator MainEnumerator()
     {
+        float t;
+
         while (true)
         {
-            yield return new WaitForSeconds(stayActiveSecond);
+            yield return new WaitForSeconds(stayDeactiveSecond);
 
             yield return ActivateLaserEnumerator();
 
-            yield return new WaitForSeconds(stayDeactiveSecond);
+            t = 0;
+
+            while (t < stayActiveSecond)
+            {
+                t += Time.deltaTime;
+
+                RaycastHit2D hit = Physics2D.Linecast(transform.position, transform.position + laserLocalTarget, laserLayerMask);
+                if (hit.collider != null)
+                {
+                    hit.collider.GetComponent<CharacterController>().Die();
+                }
+
+                yield return new WaitForFixedUpdate();
+            }
 
             yield return DeactivateLaserEnumerator();
         }
     }
-
     private IEnumerator ActivateLaserEnumerator()
     {
         laserCreateParticle.Play();
-        
         float t = 0;
+        Vector2 origin;
+        float magn;
+        Vector2 size;
 
         while (t < 1)
         {
             t += Time.deltaTime / activateDuration;
 
-            lineRenderer.SetPosition(1, Vector3.Lerp(Vector3.zero, laserLocalTarget, t));
+            Vector3 pos = Vector3.Lerp(Vector3.zero, laserLocalTarget, t);
 
-            yield return new WaitForEndOfFrame();
+            lineRenderer.SetPosition(1, pos);
+
+            RaycastHit2D hit = Physics2D.Linecast(transform.position, transform.position + pos, laserLayerMask);
+            if (hit.collider != null)
+            {
+                hit.collider.GetComponent<CharacterController>().Die();
+            }
+
+            yield return new WaitForFixedUpdate();
         }
 
         lineRenderer.SetPosition(1, laserLocalTarget);
@@ -69,13 +94,25 @@ public class Laser : MonoBehaviour
 
         float t = 0;
 
+        Vector2 origin;
+        float magn;
+        Vector2 size;
+
         while (t < 1)
         {
             t += Time.deltaTime / deactivateDuration;
 
-            lineRenderer.SetPosition(1, Vector3.Lerp(laserLocalTarget, Vector3.zero, t));
+            Vector3 pos = Vector3.Lerp(laserLocalTarget, Vector3.zero, t);
 
-            yield return new WaitForEndOfFrame();
+            lineRenderer.SetPosition(1, pos);
+
+            RaycastHit2D hit = Physics2D.Linecast(transform.position, transform.position + pos, laserLayerMask);
+            if (hit.collider != null)
+            {
+                hit.collider.GetComponent<CharacterController>().Die();
+            } 
+
+            yield return new WaitForFixedUpdate();
         }
 
         lineRenderer.SetPosition(1, Vector3.zero);

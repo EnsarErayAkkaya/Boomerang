@@ -6,10 +6,10 @@ using UnityEngine;
 public class BoomerangController : MonoBehaviour
 {
     [SerializeField] private BoomerangData boomerangData;
+    [SerializeField] private GrabCountUI grabCountUI;
 
     private int speedMultiplier = 1;
     private Boomerang boomerang;
-    private GrabCountUI grabCountUI;
     public CharacterController characterController;
     private Vector2 dir;
 
@@ -30,7 +30,6 @@ public class BoomerangController : MonoBehaviour
         this.boomerang = boomerang;
         boomerang.SetBoomerang(boomerangData.boomerangDetails[SaveService.saveData.boomerang]);
 
-        grabCountUI = FindObjectOfType<GrabCountUI>();
         grabCountUI.SetGrabCount(this.grabCount);
     }
     void Update()
@@ -102,7 +101,7 @@ public class BoomerangController : MonoBehaviour
         else if(grabCount <= 0)
         {
             // die
-            gameObject.SetActive(false);
+            characterController.Die();
         }
     }
 }

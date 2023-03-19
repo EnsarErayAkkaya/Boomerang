@@ -5,10 +5,26 @@ using TMPro;
 
 public class GrabCountUI : MonoBehaviour
 {
-    public TextMeshProUGUI grabCountText;
+    [SerializeField] private Transform grabCountTransform;
+    [SerializeField] private GameObject grabCountPrefab;
+    private List<GameObject> grabCountObjects = new List<GameObject>();
 
-    public void SetGrabCount(int c)
+    public void SetGrabCount(int val)
     {
-        grabCountText.text = c.ToString();
+        if (val > grabCountObjects.Count)
+        {
+            while (grabCountObjects.Count < val)
+            {
+                grabCountObjects.Add(Instantiate(grabCountPrefab, grabCountTransform));
+            }
+        }
+        else
+        {
+            for (int i = grabCountObjects.Count; i > val; i--)
+            {
+                Destroy(grabCountObjects[i - 1]);
+                grabCountObjects.RemoveAt(i - 1);
+            }
+        }
     }
 }
