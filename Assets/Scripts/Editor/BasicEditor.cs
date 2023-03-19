@@ -1,10 +1,9 @@
-using RR.Services;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
-namespace RR.Editor
+namespace Boomerang.Editor
 {
     public class BasicEditor : EditorWindow
     {

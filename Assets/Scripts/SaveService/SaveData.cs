@@ -1,17 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace RR.Services
+
+
+[System.Serializable]
+public partial class SaveData
 {
-    [System.Serializable]
-    public partial class SaveData
+    public int currentLevel;
+    public int boomerangCount;
+    public int boomerang = 0;
+    public SaveData()
     {
-        public int boomerangCount;
-        public int boomerang = 0;
-        public SaveData()
-        {
-            boomerang = 0;
-            boomerangCount = 1;
-        }
+        currentLevel = 0;
+        boomerang = 0;
+        boomerangCount = 1;
     }
 }

@@ -6,11 +6,20 @@ using TMPro;
 using UnityEngine.SceneManagement;
 
 
+
 public class MainMenu : MonoBehaviour
 {
-
-    public void startButtonOnClick()
+    private void Start() 
     {
-        SceneManager.LoadScene("BaseScene");
+        SaveService.LoadGame();
     }
+
+    public void StartButtonOnClick()
+    {
+        Debug.Log("current lebvel: " + SaveService.saveData.currentLevel);
+        SceneManager.LoadScene(SaveService.saveData.currentLevel);
+    }
+
 }
+
+
