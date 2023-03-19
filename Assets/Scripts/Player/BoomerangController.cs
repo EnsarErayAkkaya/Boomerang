@@ -1,0 +1,108 @@
+using RR.Services;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class BoomerangController : MonoBehaviour
+{
+    [SerializeField] private BoomerangData boomerangData;
+
+    private int speedMultiplier = 1;
+    private Boomerang boomerang;
+    private GrabCountUI grabCountUI;
+    public CharacterController characterController;
+    private Vector2 dir;
+
+    private Camera camera;
+
+    public int grabCount;
+    public bool hasBumerang = true;
+
+    private void Start()
+    {
+        camera = Camera.main;
+    }
+
+    public void Set(int grabCount, Boomerang boomerang)
+    {
+        this.grabCount = grabCount;
+
+        this.boomerang = boomerang;
+        boomerang.SetBoomerang(boomerangData.boomerangDetails[SaveService.saveData.boomerang]);
+
+        grabCountUI = FindObjectOfType<GrabCountUI>();
+        grabCountUI.SetGrabCount(this.grabCount);
+    }
+    void Update()
+    {
+        if(hasBumerang)
+        {
+            SetDir((Vector2)transform.position, (Vector2)camera.ScreenToWorldPoint(Input.mousePosition));
+            boomerang.SetBoomerangPosBeforeShooting(characterController.boxCollider.bounds.center, dir);
+            if (Input.GetMouseButtonDown(0))
+            {
+                ThrowBoomerang();
+            }
+        }
+        if (Input.GetMouseButtonDown(1) && grabCount > 0 && !hasBumerang)
+        {
+            PullBoomerang();
+        }
+        
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            speedMultiplier++;
+            if (speedMultiplier > 3)
+                speedMultiplier = 1;
+            boomerang.SetSpeed(speedMultiplier);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (++SaveService.saveData.boomerang > SaveService.saveData.boomerangCount)
+            {
+                SaveService.saveData.boomerang = 0;
+            }
+
+            if (hasBumerang)
+            {
+                boomerang.SetBoomerang(boomerangData.boomerangDetails[SaveService.saveData.boomerang]);
+            }
+
+            Debug.Log("Current Boomerang: " + SaveService.saveData.boomerang);
+
+            SaveService.SaveGame();
+        }
+    }
+    private void SetDir(Vector2 from, Vector2 to)
+    {
+        dir = (to - from).normalized;
+    }
+    public void ThrowBoomerang()
+    {
+        hasBumerang = false;
+        
+        boomerang.ThrowBoomerang(dir);
+    }
+    public void PullBoomerang()
+    {
+        SetDir(boomerang.transform.position, transform.position);
+        boomerang.ThrowBoomerang(dir);
+    }
+    public void GrabBoomerang()
+    {
+        if (!hasBumerang && grabCount > 0)
+        {
+            boomerang.SetBoomerang(boomerangData.boomerangDetails[SaveService.saveData.boomerang]);
+
+            hasBumerang = true;
+            grabCount--;
+            grabCountUI.SetGrabCount(grabCount);
+        }
+        else if(grabCount <= 0)
+        {
+            // die
+            gameObject.SetActive(false);
+        }
+    }
+}
