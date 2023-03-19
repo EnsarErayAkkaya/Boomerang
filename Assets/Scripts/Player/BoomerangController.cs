@@ -34,21 +34,25 @@ public class BoomerangController : MonoBehaviour
     }
     void Update()
     {
-        if(hasBumerang)
+        if (Input.GetMouseButtonDown(0))
         {
-            SetDir((Vector2)transform.position, (Vector2)camera.ScreenToWorldPoint(Input.mousePosition));
-            boomerang.SetBoomerangPosBeforeShooting(characterController.boxCollider.bounds.center, dir);
-            if (Input.GetMouseButtonDown(0))
+            if (hasBumerang)
             {
                 ThrowBoomerang();
             }
+            else if (grabCount > 0 && !hasBumerang)
+            {
+                PullBoomerang();
+            }
         }
-        if (Input.GetMouseButtonDown(1) && grabCount > 0 && !hasBumerang)
+
+        if (hasBumerang)
         {
-            PullBoomerang();
+            SetDir((Vector2)transform.position, (Vector2)camera.ScreenToWorldPoint(Input.mousePosition));
+            boomerang.SetBoomerangPosBeforeShooting(characterController.boxCollider.bounds.center, dir);
         }
-        
-        if(Input.GetKeyDown(KeyCode.Q))
+
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             speedMultiplier++;
             if (speedMultiplier > 3)

@@ -21,10 +21,13 @@ public class CameraController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        int division = (int)characterController.transform.position.x / (int)dist;
+        if (characterController != null)
+        {
+            int division = (int)characterController.transform.position.x / (int)dist;
 
-        float targetX = division * dist * 2;
+            float targetX = division * dist * 2;
 
-        transform.position = cameraOffset + new Vector3(Mathf.Lerp(transform.position.x, targetX, speed * Time.deltaTime), 0, 0);
+            transform.position = cameraOffset + new Vector3(Mathf.Lerp(transform.position.x, targetX, speed * Time.deltaTime), 0, 0);
+        }
     }
 }
