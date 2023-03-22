@@ -152,7 +152,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boomerangController: {fileID: 760612300393013769}
   speed: 2
-  jumpForce: 3
+  ladderClimbingSpeed: 2
+  jumpForce: 3.5
   gravity: 5
   boxCollider: {fileID: 760612300393013781}
   rb: {fileID: 760612300393013782}

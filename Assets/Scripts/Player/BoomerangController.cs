@@ -48,7 +48,7 @@ public class BoomerangController : MonoBehaviour
         if (hasBumerang)
         {
             SetDir((Vector2)transform.position, (Vector2)camera.ScreenToWorldPoint(Input.mousePosition));
-            boomerang.SetBoomerangPosBeforeShooting(characterController.boxCollider.bounds.center, dir);
+            boomerang.SetBoomerangPosBeforeShooting(characterController.BoxCollider.bounds.center, dir);
         }
 
         if (Input.GetKeyDown(KeyCode.Q))

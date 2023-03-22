@@ -45,7 +45,9 @@ public class Laser : MonoBehaviour
             {
                 t += Time.deltaTime;
 
-                RaycastHit2D hit = Physics2D.Linecast(transform.position, transform.position + laserLocalTarget, laserLayerMask);
+                Vector3 pos = (Quaternion.AngleAxis(transform.rotation.eulerAngles.z, Vector3.forward) * laserLocalTarget);
+
+                RaycastHit2D hit = Physics2D.Linecast(transform.position, transform.position + pos, laserLayerMask);
                 if (hit.collider != null)
                 {
                     hit.collider.GetComponent<CharacterController>().Die();
@@ -73,7 +75,7 @@ public class Laser : MonoBehaviour
 
             lineRenderer.SetPosition(1, pos);
 
-            RaycastHit2D hit = Physics2D.Linecast(transform.position, transform.position + pos, laserLayerMask);
+            RaycastHit2D hit = Physics2D.Linecast(transform.position, transform.position + (Quaternion.AngleAxis(transform.rotation.z, Vector3.forward) * pos), laserLayerMask);
             if (hit.collider != null)
             {
                 hit.collider.GetComponent<CharacterController>().Die();
@@ -84,7 +86,7 @@ public class Laser : MonoBehaviour
 
         lineRenderer.SetPosition(1, laserLocalTarget);
 
-        laserEndBeamParticle.transform.localPosition = laserLocalTarget;
+        laserEndBeamParticle.transform.localPosition = laserLocalTarget + (-laserLocalTarget.normalized * .5f);
         laserEndBeamParticle.Play();
     }
 
@@ -106,7 +108,7 @@ public class Laser : MonoBehaviour
 
             lineRenderer.SetPosition(1, pos);
 
-            RaycastHit2D hit = Physics2D.Linecast(transform.position, transform.position + pos, laserLayerMask);
+            RaycastHit2D hit = Physics2D.Linecast(transform.position, transform.position + (Quaternion.AngleAxis(transform.rotation.z, Vector3.forward) * pos), laserLayerMask);
             if (hit.collider != null)
             {
                 hit.collider.GetComponent<CharacterController>().Die();
