@@ -4,19 +4,23 @@ using UnityEngine;
 
 public class Boomerang : MonoBehaviour
 {
-    public float speed;
+    [SerializeField] private float beforeThrowOffset;
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Collider2D collider;
+
+
     private int multiplier = 1;
-    public float beforeThrowOffset;
-
     private Rigidbody2D rb;
-
+    private float speed;
     private Vector3 _velocity;
 
-    [SerializeField] private SpriteRenderer spriteRenderer;
+    public Collider2D Collider => collider;
     public SpriteRenderer SpriteRenderer => spriteRenderer;
+
     void Start()
     {
         rb = this.GetComponent<Rigidbody2D>();
+        collider.enabled = false;
     }
 
     public void SetBoomerang(BoomerangDetail detail)

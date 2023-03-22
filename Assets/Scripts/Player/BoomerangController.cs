@@ -83,7 +83,9 @@ public class BoomerangController : MonoBehaviour
     public void ThrowBoomerang()
     {
         hasBumerang = false;
-        
+
+        boomerang.Collider.enabled = true;
+
         boomerang.ThrowBoomerang(dir);
     }
     public void PullBoomerang()
@@ -96,6 +98,8 @@ public class BoomerangController : MonoBehaviour
         if (!hasBumerang && grabCount > 0)
         {
             boomerang.SetBoomerang(boomerangData.boomerangDetails[SaveService.saveData.boomerang]);
+
+            boomerang.Collider.enabled = false;
 
             hasBumerang = true;
             grabCount--;

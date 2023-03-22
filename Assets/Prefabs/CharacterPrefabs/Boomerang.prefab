@@ -128,9 +128,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f84bf304f22d8cb44ba8984bcba0c2ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
   beforeThrowOffset: 0.85
   spriteRenderer: {fileID: 2996129442665743953}
+  collider: {fileID: 2996129443683571655}
 --- !u!50 &2996129443683571654
 Rigidbody2D:
   serializedVersion: 4

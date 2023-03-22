@@ -52,9 +52,16 @@ public class CharacterController : MonoBehaviour
         {
             x = Input.GetAxis("Horizontal");
 
-            if (isClimbing && (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)))
+            if (isClimbing)
             {
-                moveVector.y = ladderClimbingSpeed;
+                if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+                {
+                    moveVector.y = ladderClimbingSpeed;
+                }
+                else
+                {
+                    moveVector.y = 0;
+                }
             }
             else if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && isGrounded)
             {
