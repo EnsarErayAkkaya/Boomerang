@@ -4,38 +4,47 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 
 
 public class MainMenu : MonoBehaviour
 {
-    [SerializeField] GameObject startButtonText;
-    [SerializeField] GameObject startNewGameButton;
+    [SerializeField] GameObject startButton;
+    [SerializeField] GameObject newGameButton;
+
+    [SerializeField] Sprite continueSprite;
+    [SerializeField] Sprite startSprite;
 
     private void Start() 
     {
         SaveService.LoadGame();
         if (SaveService.saveData.currentLevel != 0)
         {
-            startButtonText.GetComponent<TextMeshProUGUI>().text = "CONTINUE";
+            newGameButton.SetActive(true);
 
-            startNewGameButton.SetActive(true);
+            startButton.GetComponent<Image>().sprite = continueSprite;
         }
         else
         {
-            startButtonText.GetComponent<TextMeshProUGUI>().text = "START";
+            newGameButton.SetActive(false);
 
-            startNewGameButton.SetActive(false);
+            startButton.GetComponent<Image>().sprite = startSprite;
         }
+    }
+
+    private void Update() 
+    {
+        
     }
 
     public void StartButtonOnClick()
     {
-        Debug.Log("current lebvel: " + SaveService.saveData.currentLevel);
+        Debug.Log("current level: " + SaveService.saveData.currentLevel);
         SceneManager.LoadScene(SaveService.saveData.currentLevel);
     }
 
-    public void StartNewGameButtonOnClick()
+    public void NewGameButtonOnClick()
     {
         SaveService.saveData.currentLevel = 0;
 

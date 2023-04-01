@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Boomerang
   - BadRobot
+  - YWall
+  - XWall
   layers:
   - Default
   - TransparentFX
