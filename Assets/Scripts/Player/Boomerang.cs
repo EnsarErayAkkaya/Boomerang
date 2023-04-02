@@ -24,7 +24,7 @@ public class Boomerang : MonoBehaviour
         
         if (isAutomatic)
         {
-            speed = 8;
+            speed = 5;
 
             ThrowBoomerang(new Vector2(Random.Range(-1.0f, 1.0f), Random.Range(-.5f, .5f)).normalized);
         }
