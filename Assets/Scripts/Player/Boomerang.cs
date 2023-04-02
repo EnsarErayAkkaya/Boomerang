@@ -7,6 +7,7 @@ public class Boomerang : MonoBehaviour
     [SerializeField] private float beforeThrowOffset;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Collider2D collider;
+    [SerializeField] private bool isAutomatic = false;
 
 
     private int multiplier = 1;
@@ -20,7 +21,17 @@ public class Boomerang : MonoBehaviour
     void Start()
     {
         rb = this.GetComponent<Rigidbody2D>();
-        collider.enabled = false;
+        
+        if (isAutomatic)
+        {
+            speed = 5;
+
+            ThrowBoomerang(new Vector2(Random.Range(-1.0f, 1.0f), Random.Range(-.5f, .5f)).normalized);
+        }
+        else
+        {
+            collider.enabled = false;
+        }
     }
 
     public void SetBoomerang(BoomerangDetail detail)
@@ -32,6 +43,8 @@ public class Boomerang : MonoBehaviour
     
     public void ThrowBoomerang(Vector2 _velocity)
     {
+        Debug.Log("b");
+
         this._velocity = _velocity * speed;
         rb.velocity = this._velocity;
     }
