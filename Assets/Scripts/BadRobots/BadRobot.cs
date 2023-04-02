@@ -66,24 +66,27 @@ public class BadRobot : MonoBehaviour
     }
     private void LookForPlayer()
     {
-        Vector2 rayDir = (Vector2)player.position - (rb.position + head);
-        float dirMagnitude = rayDir.magnitude;
-
-        RaycastHit2D hit = Physics2D.Raycast(rb.position + head, rayDir.normalized, dirMagnitude, playerDetectLayers);
-
-        Debug.DrawRay(rb.position + head, rayDir * dirMagnitude, Color.blue);
-        if (hit.collider != null)
+        if (player != null)
         {
-            //Debug.Log(gameObject.name + " found " + hit.collider.gameObject.name);
+            Vector2 rayDir = (Vector2)player.position - (rb.position + head);
+            float dirMagnitude = rayDir.magnitude;
 
-            if (hit.collider.CompareTag("Player"))
+            RaycastHit2D hit = Physics2D.Raycast(rb.position + head, rayDir.normalized, dirMagnitude, playerDetectLayers);
+
+            Debug.DrawRay(rb.position + head, rayDir * dirMagnitude, Color.blue);
+            if (hit.collider != null)
             {
-                badRobotState = BadRobotState.Found;
-                moveVector.x = hit.transform.position.x > rb.position.x ? 1 : -1;
-            }
-            else
-            {
-                badRobotState = BadRobotState.Patrolling;
+                //Debug.Log(gameObject.name + " found " + hit.collider.gameObject.name);
+
+                if (hit.collider.CompareTag("Player"))
+                {
+                    badRobotState = BadRobotState.Found;
+                    moveVector.x = hit.transform.position.x > rb.position.x ? 1 : -1;
+                }
+                else
+                {
+                    badRobotState = BadRobotState.Patrolling;
+                }
             }
         }
     }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class CharacterController : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class CharacterController : MonoBehaviour
     [SerializeField] private Vector2 boxColliderNormalSize; 
     [SerializeField] private Vector2 boxColliderCrouchingOffset;
     [SerializeField] private Vector2 boxColliderNormalOffset;
+
+    [SerializeField] private ParentConstraint parentConstraint;
 
     private bool isClimbing;
     private float x;
@@ -85,7 +88,8 @@ public class CharacterController : MonoBehaviour
     {
         if(collision.collider.CompareTag("BadRobot"))
         {
-            gameObject.SetActive(false);
+            Die("Bad Robot");
+            //gameObject.SetActive(false);
         }
         else if (collision.transform.TryGetComponent<Collectable>(out var collectable))
         {
@@ -113,19 +117,22 @@ public class CharacterController : MonoBehaviour
     private bool IsGrounded()
     {
         RaycastHit2D hit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0f, Vector2.down, .05f, groundLayers);
-        if (hit.collider != null)
+
+        if (hit.collider && hit.collider.CompareTag("WoodPlatform"))
         {
             transform.SetParent(hit.transform);
         }
-        else
+        else if (transform.parent != null)
         {
             transform.SetParent(null);
         }
+
         return hit.collider != null;
     }
 
-    public void Die()
+    public void Die(string reason)
     {
+        Debug.Log("Diea reason: " + reason);
         gameObject.SetActive(false);
     }
 }

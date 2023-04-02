@@ -165,6 +165,7 @@ MonoBehaviour:
   boxColliderNormalSize: {x: 0.5, y: 1}
   boxColliderCrouchingOffset: {x: 0, y: 0.4}
   boxColliderNormalOffset: {x: 0, y: 0.5}
+  parentConstraint: {fileID: 0}
 --- !u!61 &760612300393013781
 BoxCollider2D:
   m_ObjectHideFlags: 0

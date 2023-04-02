@@ -50,7 +50,7 @@ public class Laser : MonoBehaviour
                 RaycastHit2D hit = Physics2D.Linecast(transform.position, transform.position + pos, laserLayerMask);
                 if (hit.collider != null)
                 {
-                    hit.collider.GetComponent<CharacterController>().Die();
+                    hit.collider.GetComponent<CharacterController>().Die("Laser");
                 }
 
                 yield return new WaitForFixedUpdate();
@@ -78,7 +78,7 @@ public class Laser : MonoBehaviour
             RaycastHit2D hit = Physics2D.Linecast(transform.position, transform.position + (Quaternion.AngleAxis(transform.rotation.z, Vector3.forward) * pos), laserLayerMask);
             if (hit.collider != null)
             {
-                hit.collider.GetComponent<CharacterController>().Die();
+                hit.collider.GetComponent<CharacterController>().Die("Laser");
             }
 
             yield return new WaitForFixedUpdate();
@@ -111,7 +111,7 @@ public class Laser : MonoBehaviour
             RaycastHit2D hit = Physics2D.Linecast(transform.position, transform.position + (Quaternion.AngleAxis(transform.rotation.z, Vector3.forward) * pos), laserLayerMask);
             if (hit.collider != null)
             {
-                hit.collider.GetComponent<CharacterController>().Die();
+                hit.collider.GetComponent<CharacterController>().Die("Laser");
             } 
 
             yield return new WaitForFixedUpdate();

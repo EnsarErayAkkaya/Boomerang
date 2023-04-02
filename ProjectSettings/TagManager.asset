@@ -8,6 +8,7 @@ TagManager:
   - BadRobot
   - YWall
   - XWall
+  - WoodPlatform
   layers:
   - Default
   - TransparentFX

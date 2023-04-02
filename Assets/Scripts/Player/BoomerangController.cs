@@ -108,7 +108,7 @@ public class BoomerangController : MonoBehaviour
         else if(grabCount <= 0)
         {
             // die
-            characterController.Die();
+            characterController.Die("Boomerang");
         }
     }
 }
