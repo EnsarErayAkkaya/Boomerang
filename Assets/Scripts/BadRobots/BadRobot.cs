@@ -140,12 +140,17 @@ public class BadRobot : MonoBehaviour
             {
                 rb.bodyType = RigidbodyType2D.Static;
             }
-            transform.SetParent(hit.transform);
+
+            if (hit.collider && hit.collider.CompareTag("WoodPlatform") && (transform.parent == null))
+            {
+                transform.SetParent(hit.transform);
+            }
         }
-        else
+        if (transform.parent != null)
         {
             transform.SetParent(null);
         }
+
         return hit.collider != null;
     }
     public bool IsNextStepValid()

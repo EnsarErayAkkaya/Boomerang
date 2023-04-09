@@ -20,7 +20,10 @@ public class CharacterController : MonoBehaviour
     [SerializeField] private Vector2 boxColliderCrouchingOffset;
     [SerializeField] private Vector2 boxColliderNormalOffset;
 
-    [SerializeField] private ParentConstraint parentConstraint;
+    [Header("Death")]
+    [SerializeField] private GameObject ragdoll;
+    [SerializeField] private float ragdollSpawnForce;
+
 
     private bool isClimbing;
     private float x;
@@ -137,6 +140,23 @@ public class CharacterController : MonoBehaviour
     public void Die(string reason)
     {
         Debug.Log("Diea reason: " + reason);
+
         gameObject.SetActive(false);
+
+        var instance = Instantiate(ragdoll, transform.position, Quaternion.identity);
+
+        int childCount = instance.transform.childCount;
+
+        for (int i = 0; i < childCount; i++)
+        {
+            Transform child = instance.transform.GetChild(i);
+
+            float force = Random.Range(0.9f, 1.1f) * ragdollSpawnForce;
+            var forceDir = ((Vector2)child.localPosition).normalized;
+
+            child.GetComponent<Rigidbody2D>().AddForce(force * forceDir, ForceMode2D.Impulse);
+            child.GetComponent<Rigidbody2D>().AddTorque(force * .1f, ForceMode2D.Impulse);
+        }
+
     }
 }

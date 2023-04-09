@@ -39,6 +39,7 @@ public class BatRobot : MonoBehaviour
     [SerializeField] private Transform attackingIndicatorTransform;
     [SerializeField] private float attackIndicatorActivePos;
     [SerializeField] private Animator animator;
+    [SerializeField] private ParticleSystem[] flameParticles;
 
 
     private Transform player;
@@ -179,9 +180,11 @@ public class BatRobot : MonoBehaviour
 
         isSleeping = true;
 
-        if (batRobotState == BatRobotState.Attack)
+        ToggleAttackIndicator(false);
+
+        foreach (var item in flameParticles)
         {
-            ToggleAttackIndicator(false);
+            item.Stop();
         }
 
         animator.enabled = false;
@@ -211,6 +214,11 @@ public class BatRobot : MonoBehaviour
             foreach (var item in colliders)
             {
                 item.enabled = false;
+            }
+
+            foreach (var item in flameParticles)
+            {
+                item.Play();
             }
 
             float t = 0;
