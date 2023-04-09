@@ -43,8 +43,6 @@ public class Boomerang : MonoBehaviour
     
     public void ThrowBoomerang(Vector2 _velocity)
     {
-        Debug.Log("b");
-
         this._velocity = _velocity * speed;
         rb.velocity = this._velocity;
     }

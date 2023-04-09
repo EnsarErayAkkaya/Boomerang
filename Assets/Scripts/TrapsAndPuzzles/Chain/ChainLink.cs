@@ -35,7 +35,7 @@ public class ChainLink : MonoBehaviour
         if (!collidersSetted)
         {
             collidersSetted = true;
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(0.2f);
 
             GetComponent<CapsuleCollider2D>().enabled = false;
             if (transform.childCount > 0)

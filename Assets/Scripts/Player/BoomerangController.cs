@@ -90,8 +90,11 @@ public class BoomerangController : MonoBehaviour
     }
     public void PullBoomerang()
     {
-        SetDir(boomerang.transform.position, transform.position);
-        boomerang.ThrowBoomerang(dir);
+        if (boomerang != null)
+        {
+            SetDir(boomerang.transform.position, transform.position);
+            boomerang.ThrowBoomerang(dir);
+        }
     }
     public void GrabBoomerang()
     {

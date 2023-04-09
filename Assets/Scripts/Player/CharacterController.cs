@@ -104,6 +104,10 @@ public class CharacterController : MonoBehaviour
         {
             isClimbing = true;
         }
+        else if (collider.TryGetComponent<Projectile>(out var projectile))
+        {
+            Die("projectile");
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collider)
