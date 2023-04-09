@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -33,6 +34,11 @@ public class BatRobot : MonoBehaviour
     [Header("Sleep")]
     [SerializeField] private float sleepDuration;
     [SerializeField] private float wakeUpDuration;
+
+    [Header("Visual")]
+    [SerializeField] private Transform attackingIndicatorTransform;
+    [SerializeField] private float attackIndicatorActivePos;
+    [SerializeField] private Animator animator;
 
 
     private Transform player;
@@ -138,11 +144,21 @@ public class BatRobot : MonoBehaviour
 
                 if (hit.collider.CompareTag("Player") && angle < playerDetectAngle)
                 {
+                    if (batRobotState != BatRobotState.Attack)
+                    {
+                        ToggleAttackIndicator(true);
+                    }
+
                     batRobotState = BatRobotState.Attack;
                     remainingAttackDuration = attackFollowDuration;
                 }
                 else if (remainingAttackDuration <= 0)
                 {
+                    if (batRobotState != BatRobotState.Idle)
+                    {
+                        ToggleAttackIndicator(false);
+                    }
+
                     batRobotState = BatRobotState.Idle;
                 }
             }
@@ -163,6 +179,13 @@ public class BatRobot : MonoBehaviour
 
         isSleeping = true;
 
+        if (batRobotState == BatRobotState.Attack)
+        {
+            ToggleAttackIndicator(false);
+        }
+
+        animator.enabled = false;
+
         rigidbody.bodyType = RigidbodyType2D.Dynamic;
 
         StartCoroutine(WakeUpRoutine());
@@ -171,6 +194,8 @@ public class BatRobot : MonoBehaviour
     private void WakeUp()
     {
         isSleeping = false;
+
+        animator.enabled = true;
 
         batRobotState = BatRobotState.Idle;
     }
@@ -231,6 +256,15 @@ public class BatRobot : MonoBehaviour
     {
         currentTargetPosLerpSpeed = 0;
         targetPoint = startPoint + new Vector3(Random.Range(-bounds.x, bounds.x), Random.Range(-bounds.y, bounds.y));
+    }
+
+    private void ToggleAttackIndicator(bool activate)
+    {
+        float posY = activate ? attackIndicatorActivePos : 0;
+
+        attackingIndicatorTransform.DOLocalMoveY(posY, .2f)
+            .SetEase(Ease.InOutSine);
+
     }
 
     private void OnDrawGizmos()
