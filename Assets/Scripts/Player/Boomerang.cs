@@ -8,12 +8,14 @@ public class Boomerang : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Collider2D collider;
     [SerializeField] private bool isAutomatic = false;
+    [SerializeField] private GameObject collisionParticle;
 
 
     private int multiplier = 1;
     private Rigidbody2D rb;
     private float speed;
     private Vector3 _velocity;
+    private GameObject instance;
 
     public Collider2D Collider => collider;
     public SpriteRenderer SpriteRenderer => spriteRenderer;
@@ -63,6 +65,21 @@ public class Boomerang : MonoBehaviour
         }
         else if (!collision.collider.CompareTag("Player"))
             ReflectProjectile(collision.contacts[0].normal);
+
+
+        Vector2 contactPoint = collision.contacts[0].point;
+
+        instance = null;
+
+        instance = Instantiate(collisionParticle, contactPoint, Quaternion.identity);
+
+        instance.transform.position = contactPoint;
+
+        instance.GetComponent<ParticleSystem>().Clear();
+
+        instance.GetComponent<ParticleSystem>().Play();
+
+        Destroy(instance, 4f);
     }
 
     private void ReflectProjectile(Vector2 reflectVector)

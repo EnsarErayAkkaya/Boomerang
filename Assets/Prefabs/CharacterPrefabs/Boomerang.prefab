@@ -131,6 +131,8 @@ MonoBehaviour:
   beforeThrowOffset: 0.85
   spriteRenderer: {fileID: 2996129442665743953}
   collider: {fileID: 2996129443683571655}
+  isAutomatic: 0
+  collisionParticle: {fileID: 6868334143310383053, guid: 647cddfc1286e99df9ccbda1d53d7c44, type: 3}
 --- !u!50 &2996129443683571654
 Rigidbody2D:
   serializedVersion: 4
