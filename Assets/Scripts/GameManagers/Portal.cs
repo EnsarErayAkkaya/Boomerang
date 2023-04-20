@@ -8,10 +8,13 @@ public class Portal : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Going Next Level");
-        UnityEngine.SceneManagement.SceneManager.LoadScene(nextLevel);
-        SaveService.saveData.currentLevel = nextLevel;
-        SaveService.SaveGame();
+        if (collision.collider.CompareTag("Player"))
+        {
+            Debug.Log("Going Next Level");
+            UnityEngine.SceneManagement.SceneManager.LoadScene(nextLevel);
+            SaveService.saveData.currentLevel = nextLevel;
+            SaveService.SaveGame();
+        }
     }
     private void Update()
     {

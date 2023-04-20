@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class BoomerangController : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class BoomerangController : MonoBehaviour
     private Vector2 dir;
 
     private Camera camera;
-
+    private bool controllerDisabled = false;
     public int grabCount;
     public bool hasBumerang = true;
 
@@ -33,47 +34,50 @@ public class BoomerangController : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (!controllerDisabled)
         {
-            if (hasBumerang)
+            if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
             {
-                ThrowBoomerang();
-            }
-            else if (grabCount > 0 && !hasBumerang)
-            {
-                PullBoomerang();
-            }
-        }
-
-        if (hasBumerang)
-        {
-            SetDir((Vector2)transform.position, (Vector2)camera.ScreenToWorldPoint(Input.mousePosition));
-            boomerang.SetBoomerangPosBeforeShooting(characterController.BoxCollider.bounds.center, dir);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            speedMultiplier++;
-            if (speedMultiplier > 3)
-                speedMultiplier = 1;
-            boomerang.SetSpeed(speedMultiplier);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            if (++SaveService.saveData.boomerang > SaveService.saveData.boomerangCount)
-            {
-                SaveService.saveData.boomerang = 0;
+                if (hasBumerang)
+                {
+                    ThrowBoomerang();
+                }
+                else if (grabCount > 0 && !hasBumerang)
+                {
+                    PullBoomerang();
+                }
             }
 
             if (hasBumerang)
             {
-                boomerang.SetBoomerang(boomerangData.boomerangDetails[SaveService.saveData.boomerang]);
+                SetDir((Vector2)transform.position, (Vector2)camera.ScreenToWorldPoint(Input.mousePosition));
+                boomerang.SetBoomerangPosBeforeShooting(characterController.BoxCollider.bounds.center, dir);
             }
 
-            Debug.Log("Current Boomerang: " + SaveService.saveData.boomerang);
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                speedMultiplier++;
+                if (speedMultiplier > 3)
+                    speedMultiplier = 1;
+                boomerang.SetSpeed(speedMultiplier);
+            }
 
-            SaveService.SaveGame();
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                if (++SaveService.saveData.boomerang > SaveService.saveData.boomerangCount)
+                {
+                    SaveService.saveData.boomerang = 0;
+                }
+
+                if (hasBumerang)
+                {
+                    boomerang.SetBoomerang(boomerangData.boomerangDetails[SaveService.saveData.boomerang]);
+                }
+
+                Debug.Log("Current Boomerang: " + SaveService.saveData.boomerang);
+
+                SaveService.SaveGame();
+            }
         }
     }
     private void SetDir(Vector2 from, Vector2 to)
@@ -113,5 +117,15 @@ public class BoomerangController : MonoBehaviour
             // die
             characterController.Die("Boomerang");
         }
+    }
+
+    public void DisableController()
+    {
+        controllerDisabled = true;
+    }
+
+    public void ActivateController()
+    {
+        controllerDisabled = false;
     }
 }

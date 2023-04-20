@@ -18,10 +18,13 @@ public class Boomerang : MonoBehaviour
     public Collider2D Collider => collider;
     public SpriteRenderer SpriteRenderer => spriteRenderer;
 
-    void Start()
+    private void Awake()
     {
         rb = this.GetComponent<Rigidbody2D>();
-        
+    }
+
+    void Start()
+    {
         if (isAutomatic)
         {
             speed = 5;
@@ -58,7 +61,7 @@ public class Boomerang : MonoBehaviour
         {
             cc.GrabBoomerang();
         }
-        else
+        else if (!collision.collider.CompareTag("Player"))
             ReflectProjectile(collision.contacts[0].normal);
     }
 

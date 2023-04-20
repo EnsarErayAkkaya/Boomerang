@@ -33,24 +33,17 @@ public class BadRobot : MonoBehaviour
         player = FindObjectOfType<CharacterController>().transform;
         StartCoroutine(ChooseDirection());
     }
-    private void Update()
+
+    private void FixedUpdate()
     {
+        isGrounded = IsGrounded();
+
         if (!isGrounded)
             moveVector.y -= gravity * Time.deltaTime;
         else if (isGrounded && moveVector.y < 0)
         {
             moveVector.y = 0;
         }
-
-        if (!sleep && stepIsValid)
-        {
-            animator.SetFloat("Speed", moveVector.x);
-            animator.SetFloat("JumpSpeed", moveVector.y);
-        }
-    }
-    private void FixedUpdate()
-    {
-        isGrounded = IsGrounded();
 
         if (!sleep)
         {
@@ -59,6 +52,9 @@ public class BadRobot : MonoBehaviour
             {
                 CheckAndSetJump();
                 LookForPlayer();
+
+                animator.SetFloat("Speed", moveVector.x);
+                animator.SetFloat("JumpSpeed", moveVector.y);
             }
         }
 

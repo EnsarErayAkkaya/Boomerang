@@ -24,7 +24,7 @@ public class CharacterController : MonoBehaviour
     [SerializeField] private GameObject ragdoll;
     [SerializeField] private float ragdollSpawnForce;
 
-
+    private bool characterDisabled = false;
     private bool isClimbing;
     private float x;
     private Vector2 moveVector;
@@ -32,6 +32,7 @@ public class CharacterController : MonoBehaviour
     private bool isCrouching;
 
     public BoxCollider2D BoxCollider => boxCollider;
+    public BoomerangController BoomerangController => boomerangController;
     void Update()
     {
         if (!isGrounded && !isClimbing)
@@ -41,45 +42,49 @@ public class CharacterController : MonoBehaviour
             moveVector.y = 0;
         }
 
-        if(Input.GetKeyDown(KeyCode.S) && !boomerangController.hasBumerang)
+        if (!characterDisabled)
         {
-            isCrouching = true;
-            boxCollider.size = boxColliderCrouchingSize;
-            boxCollider.offset = boxColliderCrouchingOffset;
-        }
-        else if((Input.GetKeyUp(KeyCode.S) && !boomerangController.hasBumerang) || isCrouching && boomerangController.hasBumerang)
-        {
-            isCrouching = false;
-            boxCollider.size = boxColliderNormalSize;
-            boxCollider.offset = boxColliderNormalOffset;
-        }
 
-        if (!boomerangController.hasBumerang && !isCrouching)
-        {
-            x = Input.GetAxis("Horizontal");
-
-            if (isClimbing)
+            if (Input.GetKeyDown(KeyCode.S) && !boomerangController.hasBumerang)
             {
-                if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
-                {
-                    moveVector.y = ladderClimbingSpeed;
-                }
-                else
-                {
-                    moveVector.y = 0;
-                }
+                isCrouching = true;
+                boxCollider.size = boxColliderCrouchingSize;
+                boxCollider.offset = boxColliderCrouchingOffset;
             }
-            else if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && isGrounded)
+            else if ((Input.GetKeyUp(KeyCode.S) && !boomerangController.hasBumerang) || isCrouching && boomerangController.hasBumerang)
             {
-                moveVector.y += jumpForce;
+                isCrouching = false;
+                boxCollider.size = boxColliderNormalSize;
+                boxCollider.offset = boxColliderNormalOffset;
             }
 
-            moveVector.x = x * speed;
-        }
+            if (!boomerangController.hasBumerang && !isCrouching)
+            {
+                x = Input.GetAxis("Horizontal");
 
-        animator.SetBool("isCrouching", isCrouching);
-        animator.SetFloat("Speed", x);
-        animator.SetFloat("JumpSpeed", moveVector.y);
+                if (isClimbing)
+                {
+                    if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+                    {
+                        moveVector.y = ladderClimbingSpeed;
+                    }
+                    else
+                    {
+                        moveVector.y = 0;
+                    }
+                }
+                else if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && isGrounded)
+                {
+                    moveVector.y += jumpForce;
+                }
+
+                moveVector.x = x * speed;
+            }
+
+            animator.SetBool("isCrouching", isCrouching);
+            animator.SetFloat("Speed", x);
+            animator.SetFloat("JumpSpeed", moveVector.y);
+        }
     }
     private void FixedUpdate()
     {
@@ -158,5 +163,15 @@ public class CharacterController : MonoBehaviour
             child.GetComponent<Rigidbody2D>().AddTorque(force * .1f, ForceMode2D.Impulse);
         }
 
+    }
+
+    public void DisableCharacter()
+    {
+        characterDisabled = true;
+    }
+
+    public void ActivateCharacter()
+    {
+        characterDisabled = false;
     }
 }

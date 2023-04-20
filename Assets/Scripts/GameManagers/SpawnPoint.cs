@@ -10,7 +10,7 @@ public class SpawnPoint : MonoBehaviour
 
     public int grabCount;
 
-    private void Awake()
+    public Transform Spawn()
     {
         var boomerangInstance = Instantiate(boomerang, transform.position, Quaternion.identity).GetComponent<Boomerang>();
 
@@ -20,6 +20,8 @@ public class SpawnPoint : MonoBehaviour
 
         BoomerangController bc = Instantiate(character, transform.position, Quaternion.identity).GetComponent<BoomerangController>();
         bc.Set(grabCount, boomerangInstance);
+
+        return bc.transform;
     }
 
 }
