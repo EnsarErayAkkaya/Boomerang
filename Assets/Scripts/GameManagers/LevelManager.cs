@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] private string[] startingTexts;
+    [SerializeField] private float textShowDelay;
 
     private SpawnPoint spawnPoint;
     private Tooltip tooltip;
@@ -17,17 +19,20 @@ public class LevelManager : MonoBehaviour
 
         var characterController = player.GetComponent<CharacterController>();
 
-        characterController.DisableCharacter();
-        characterController.BoomerangController.DisableController();
-
         tooltip = FindObjectOfType<Tooltip>();
 
         if (startingTexts.Length > 0)
         {
-            tooltip.Set(player.position, new Vector2(0, 150), startingTexts, () =>
+            characterController.DisableCharacter();
+            characterController.BoomerangController.DisableController();
+
+            DOVirtual.DelayedCall(textShowDelay, () =>
             {
-                characterController.ActivateCharacter();
-                characterController.BoomerangController.ActivateController();
+                tooltip.Set(player.position, new Vector2(0, 150), startingTexts, () =>
+                {
+                    characterController.ActivateCharacter();
+                    characterController.BoomerangController.ActivateController();
+                });
             });
         }
     }

@@ -34,6 +34,12 @@ public class BoomerangController : MonoBehaviour
     }
     void Update()
     {
+        if (hasBumerang)
+        {
+            SetDir((Vector2)transform.position, (Vector2)camera.ScreenToWorldPoint(Input.mousePosition));
+            boomerang.SetBoomerangPosBeforeShooting(characterController.BoxCollider.bounds.center, dir);
+        }
+
         if (!controllerDisabled)
         {
             if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
@@ -46,12 +52,6 @@ public class BoomerangController : MonoBehaviour
                 {
                     PullBoomerang();
                 }
-            }
-
-            if (hasBumerang)
-            {
-                SetDir((Vector2)transform.position, (Vector2)camera.ScreenToWorldPoint(Input.mousePosition));
-                boomerang.SetBoomerangPosBeforeShooting(characterController.BoxCollider.bounds.center, dir);
             }
 
             if (Input.GetKeyDown(KeyCode.Q))

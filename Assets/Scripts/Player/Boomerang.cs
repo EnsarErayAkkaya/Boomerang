@@ -66,9 +66,15 @@ public class Boomerang : MonoBehaviour
         else if (!collision.collider.CompareTag("Player"))
             ReflectProjectile(collision.contacts[0].normal);
 
+        if (collision.transform.CompareTag("Wall"))
+        {
+            OnCollidedWithWall(collision.contacts[0].point);
+        }
+    }
 
-        Vector2 contactPoint = collision.contacts[0].point;
 
+    private void OnCollidedWithWall(Vector2 contactPoint)
+    {
         instance = null;
 
         instance = Instantiate(collisionParticle, contactPoint, Quaternion.identity);

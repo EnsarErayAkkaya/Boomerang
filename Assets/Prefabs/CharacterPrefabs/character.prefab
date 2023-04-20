@@ -368,7 +368,7 @@ MonoBehaviour:
   grabCountTransform: {fileID: 3012933852151702703}
   grabCountPrefab: {fileID: 7965470102935884604, guid: 8e24a6b122ab1d94b89416c3ad9a0299, type: 3}
   extraGrabCountText: {fileID: 7561788871968431800}
-  maxVisibleSpriteCount: 0
+  maxVisibleSpriteCount: 4
 --- !u!1 &1164318032898350318
 GameObject:
   m_ObjectHideFlags: 0

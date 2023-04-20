@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BadRobot : MonoBehaviour
+public class BadRobot : MonoBehaviour, IEnemy
 {
     public BadRobotState badRobotState;
     public Rigidbody2D rb;
@@ -21,6 +21,7 @@ public class BadRobot : MonoBehaviour
     public float minJumpInterval;
     public float sleepDuration;
 
+    private bool isActivated;
     private Transform player;
     private Vector2 moveVector;
     private bool isGrounded;
@@ -28,6 +29,9 @@ public class BadRobot : MonoBehaviour
     private bool sleep;
     private bool wallInFront;
     private bool stepIsValid;
+
+    public bool IsActivated => isActivated;
+
     private void Start()
     {
         player = FindObjectOfType<CharacterController>().transform;
@@ -45,7 +49,7 @@ public class BadRobot : MonoBehaviour
             moveVector.y = 0;
         }
 
-        if (!sleep)
+        if (!sleep && isActivated)
         {
             stepIsValid = IsNextStepValid();
             if ( stepIsValid )
@@ -193,6 +197,11 @@ public class BadRobot : MonoBehaviour
         Gizmos.DrawWireSphere((Vector2)transform.position + head, 0.2f);
         Gizmos.DrawWireSphere((Vector2)transform.position + jumpRayPoint, 0.2f);
         Gizmos.DrawWireSphere((Vector2)transform.position + canJumpRayPoint, 0.2f);
+    }
+
+    public void ToggleActivation(bool isActivated)
+    {
+        this.isActivated = isActivated;
     }
 }
 public enum BadRobotState

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class BatRobot : MonoBehaviour
+public class BatRobot : MonoBehaviour, IEnemy
 {
     [Header("Idle")]
     [SerializeField] private Vector2 bounds;
@@ -61,6 +61,9 @@ public class BatRobot : MonoBehaviour
     private BatRobotState batRobotState;
 
     private bool isSleeping;
+    private bool isActivated;
+
+    public bool IsActivated => isActivated;
 
     private void Start()
     {
@@ -75,7 +78,7 @@ public class BatRobot : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (batRobotState != BatRobotState.Sleep)
+        if (batRobotState != BatRobotState.Sleep && isActivated)
         {
             LookForPlayer();
 
@@ -289,6 +292,10 @@ public class BatRobot : MonoBehaviour
         Gizmos.DrawWireSphere(targetPoint, .5f);
     }
 
+    public void ToggleActivation(bool isActivated)
+    {
+        throw new System.NotImplementedException();
+    }
 }
 public enum BatRobotState
 {
