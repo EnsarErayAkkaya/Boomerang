@@ -21,7 +21,7 @@ public class BadRobot : MonoBehaviour, IEnemy
     public float minJumpInterval;
     public float sleepDuration;
 
-    private bool isActivated;
+    private bool isActivated = true;
     private Transform player;
     private Vector2 moveVector;
     private bool isGrounded;
@@ -88,6 +88,10 @@ public class BadRobot : MonoBehaviour, IEnemy
                     badRobotState = BadRobotState.Patrolling;
                 }
             }
+        }
+        else
+        {
+            player = FindObjectOfType<CharacterController>().transform;
         }
     }
     IEnumerator ChooseDirection()

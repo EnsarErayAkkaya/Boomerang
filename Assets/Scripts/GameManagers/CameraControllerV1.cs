@@ -58,6 +58,10 @@ public class CameraControllerV1 : MonoBehaviour
 
             transform.position = Vector3.MoveTowards(transform.position, newPos, speed * Time.deltaTime);
         }
+        else
+        {
+            characterController = FindObjectOfType<CharacterController>();
+        }
     }
 
     private Vector3 CalculateThreshold()

@@ -61,7 +61,7 @@ public class BatRobot : MonoBehaviour, IEnemy
     private BatRobotState batRobotState;
 
     private bool isSleeping;
-    private bool isActivated;
+    private bool isActivated = true;
 
     public bool IsActivated => isActivated;
 
