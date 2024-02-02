@@ -10,7 +10,6 @@ public class Boomerang : MonoBehaviour
     [SerializeField] private bool isAutomatic = false;
     [SerializeField] private GameObject collisionParticle;
 
-
     private int multiplier = 1;
     private Rigidbody2D rb;
     private float speed;
@@ -25,7 +24,7 @@ public class Boomerang : MonoBehaviour
         rb = this.GetComponent<Rigidbody2D>();
     }
 
-    void Start()
+    public void SetUp(bool forceEnableCollider = false)
     {
         if (isAutomatic)
         {
@@ -35,7 +34,7 @@ public class Boomerang : MonoBehaviour
         }
         else
         {
-            collider.enabled = false;
+            collider.enabled = forceEnableCollider || false;
         }
     }
 
@@ -59,8 +58,13 @@ public class Boomerang : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         BoomerangController cc = collision.transform.GetComponent<BoomerangController>();
-        if (cc != null && !cc.hasBumerang)
+        if (cc != null && !cc.HasBumerang)
         {
+            if (cc.Boomerang == null)
+            {
+                cc.SetBoomerang(this);
+            }
+
             cc.GrabBoomerang();
         }
         else if (!collision.collider.CompareTag("Player"))

@@ -5,9 +5,6 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
-
-
-
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] GameObject startButton;

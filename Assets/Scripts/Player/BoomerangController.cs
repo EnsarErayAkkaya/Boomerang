@@ -9,46 +9,60 @@ public class BoomerangController : MonoBehaviour
     [SerializeField] private GrabCountUI grabCountUI;
 
     private int speedMultiplier = 1;
-    private Boomerang boomerang;
-    public CharacterController characterController;
+    private Boomerang boomerang = null;
+    private CharacterController characterController;
     private Vector2 dir;
 
     private Camera camera;
     private bool controllerDisabled = false;
-    public int grabCount;
-    public bool hasBumerang = true;
+    private int grabCount;
+    private bool hasBumerang = false;
+
+    public bool HasBumerang { get => hasBumerang; set => hasBumerang = value; }
+    public int GrabCount { get => grabCount; set => grabCount = value; }
+    public CharacterController CharacterController { get => characterController; }
+    public Boomerang Boomerang { get => boomerang;}
 
     private void Start()
     {
         camera = Camera.main;
+        characterController = gameObject.GetComponent<CharacterController>();
     }
 
     public void Set(int grabCount, Boomerang boomerang)
     {
-        this.grabCount = grabCount;
+        this.GrabCount = grabCount;
 
-        this.boomerang = boomerang;
-        boomerang.SetBoomerang(boomerangData.boomerangDetails[SaveService.saveData.boomerang]);
+        if (boomerang != null)
+        {
+            HasBumerang = true;
+            this.boomerang = boomerang;
+            boomerang.SetBoomerang(boomerangData.boomerangDetails[SaveService.saveData.boomerang]);
+        }
+        else
+        {
+            HasBumerang = false;
+        }
 
-        grabCountUI.SetGrabCount(this.grabCount);
+        grabCountUI.SetGrabCount(this.GrabCount);
     }
     void Update()
     {
-        if (hasBumerang)
+        if (HasBumerang)
         {
             SetDir((Vector2)transform.position, (Vector2)camera.ScreenToWorldPoint(Input.mousePosition));
-            boomerang.SetBoomerangPosBeforeShooting(characterController.BoxCollider.bounds.center, dir);
+            Boomerang.SetBoomerangPosBeforeShooting(CharacterController.BoxCollider.bounds.center, dir);
         }
 
         if (!controllerDisabled)
         {
             if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
             {
-                if (hasBumerang)
+                if (HasBumerang)
                 {
                     ThrowBoomerang();
                 }
-                else if (grabCount > 0 && !hasBumerang)
+                else if (GrabCount > 0 && !HasBumerang)
                 {
                     PullBoomerang();
                 }
@@ -59,7 +73,7 @@ public class BoomerangController : MonoBehaviour
                 speedMultiplier++;
                 if (speedMultiplier > 3)
                     speedMultiplier = 1;
-                boomerang.SetSpeed(speedMultiplier);
+                Boomerang.SetSpeed(speedMultiplier);
             }
 
             if (Input.GetKeyDown(KeyCode.Tab))
@@ -69,9 +83,9 @@ public class BoomerangController : MonoBehaviour
                     SaveService.saveData.boomerang = 0;
                 }
 
-                if (hasBumerang)
+                if (HasBumerang)
                 {
-                    boomerang.SetBoomerang(boomerangData.boomerangDetails[SaveService.saveData.boomerang]);
+                    Boomerang.SetBoomerang(boomerangData.boomerangDetails[SaveService.saveData.boomerang]);
                 }
 
                 Debug.Log("Current Boomerang: " + SaveService.saveData.boomerang);
@@ -86,36 +100,39 @@ public class BoomerangController : MonoBehaviour
     }
     public void ThrowBoomerang()
     {
-        hasBumerang = false;
+        if (Boomerang != null)
+        {
+            HasBumerang = false;
 
-        boomerang.Collider.enabled = true;
+            Boomerang.Collider.enabled = true;
 
-        boomerang.ThrowBoomerang(dir);
+            Boomerang.ThrowBoomerang(dir);
+        }
     }
     public void PullBoomerang()
     {
-        if (boomerang != null)
+        if (Boomerang != null)
         {
-            SetDir(boomerang.transform.position, transform.position);
-            boomerang.ThrowBoomerang(dir);
+            SetDir(Boomerang.transform.position, transform.position);
+            Boomerang.ThrowBoomerang(dir);
         }
     }
     public void GrabBoomerang()
     {
-        if (!hasBumerang && grabCount > 0)
+        if (!HasBumerang && GrabCount > 0)
         {
-            boomerang.SetBoomerang(boomerangData.boomerangDetails[SaveService.saveData.boomerang]);
+            Boomerang.SetBoomerang(boomerangData.boomerangDetails[SaveService.saveData.boomerang]);
 
-            boomerang.Collider.enabled = false;
+            Boomerang.Collider.enabled = false;
 
-            hasBumerang = true;
-            grabCount--;
-            grabCountUI.SetGrabCount(grabCount);
+            HasBumerang = true;
+            GrabCount--;
+            grabCountUI.SetGrabCount(GrabCount);
         }
-        else if(grabCount <= 0)
+        else if(GrabCount <= 0)
         {
             // die
-            characterController.Die("Boomerang");
+            CharacterController.Die("Boomerang");
         }
     }
 
@@ -127,5 +144,10 @@ public class BoomerangController : MonoBehaviour
     public void ActivateController()
     {
         controllerDisabled = false;
+    }
+
+    public void SetBoomerang(Boomerang boomerang)
+    {
+        this.boomerang = boomerang;
     }
 }

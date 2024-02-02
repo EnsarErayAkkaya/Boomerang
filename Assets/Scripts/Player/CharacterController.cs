@@ -45,20 +45,20 @@ public class CharacterController : MonoBehaviour
         if (!characterDisabled)
         {
 
-            if (Input.GetKeyDown(KeyCode.S) && !boomerangController.hasBumerang)
+            if (Input.GetKeyDown(KeyCode.S) && !boomerangController.HasBumerang)
             {
                 isCrouching = true;
                 boxCollider.size = boxColliderCrouchingSize;
                 boxCollider.offset = boxColliderCrouchingOffset;
             }
-            else if ((Input.GetKeyUp(KeyCode.S) && !boomerangController.hasBumerang) || isCrouching && boomerangController.hasBumerang)
+            else if ((Input.GetKeyUp(KeyCode.S) && !boomerangController.HasBumerang) || isCrouching && boomerangController.HasBumerang)
             {
                 isCrouching = false;
                 boxCollider.size = boxColliderNormalSize;
                 boxCollider.offset = boxColliderNormalOffset;
             }
 
-            if (!boomerangController.hasBumerang && !isCrouching)
+            if (!boomerangController.HasBumerang && !isCrouching)
             {
                 x = Input.GetAxis("Horizontal");
 
@@ -89,7 +89,7 @@ public class CharacterController : MonoBehaviour
     private void FixedUpdate()
     {
         isGrounded = IsGrounded();
-        if (!boomerangController.hasBumerang && !isCrouching)
+        if (!boomerangController.HasBumerang && !isCrouching)
             rb.velocity = moveVector;
     }
     private void OnCollisionEnter2D(Collision2D collision)

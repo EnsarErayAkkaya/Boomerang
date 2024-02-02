@@ -81,7 +81,7 @@ TextureImporter:
       213: 6741220234866194166
     second: badRobotAnim_25
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -98,10 +98,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -111,11 +113,11 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
-    wrapW: -1
+    wrapW: 0
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -140,6 +142,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -151,6 +155,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -163,6 +168,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -175,6 +181,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -187,6 +194,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -199,6 +207,20 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -760,9 +782,35 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-  spritePackingTag: 
+    nameFileIdTable:
+      badRobotAnim_0: 4197566042408878858
+      badRobotAnim_1: -2992702091401609830
+      badRobotAnim_10: -5441801531729122296
+      badRobotAnim_11: -2061734901084931348
+      badRobotAnim_12: -8862908948101005964
+      badRobotAnim_13: 7170920452591853739
+      badRobotAnim_14: 6792267416404535849
+      badRobotAnim_15: 1255174500769674175
+      badRobotAnim_16: 8944756332565880541
+      badRobotAnim_17: -1240028122555602778
+      badRobotAnim_18: -7027063786399680662
+      badRobotAnim_19: -7636758929629167466
+      badRobotAnim_2: -7633754445837392231
+      badRobotAnim_20: -8062489761903199703
+      badRobotAnim_21: -7822993071912769844
+      badRobotAnim_22: 4076038888318664205
+      badRobotAnim_23: -512898559626170033
+      badRobotAnim_24: 120766666686077198
+      badRobotAnim_25: 6741220234866194166
+      badRobotAnim_3: 4804774746156119915
+      badRobotAnim_4: 3342307520815988871
+      badRobotAnim_5: 7919173732147048652
+      badRobotAnim_6: 2540167462376329515
+      badRobotAnim_7: 5305163565288426082
+      badRobotAnim_8: -5543242114784763172
+      badRobotAnim_9: 2887752028865655068
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

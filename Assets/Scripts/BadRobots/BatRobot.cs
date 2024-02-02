@@ -67,6 +67,12 @@ public class BatRobot : MonoBehaviour, IEnemy
 
     private void Start()
     {
+        StartCoroutine(LateStart());
+    }
+    private IEnumerator LateStart()
+    {
+        yield return new WaitForEndOfFrame();
+
         player = FindObjectOfType<CharacterController>().transform;
 
         startPoint = transform.position;
