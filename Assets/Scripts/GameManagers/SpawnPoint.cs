@@ -8,8 +8,10 @@ public class SpawnPoint : MonoBehaviour
     public GameObject boomerang;
     public GameObject destroyers;
     public Transform boomerangSpawnTransform;
+    [SerializeField] private AudioSource audioSource;
 
     public int grabCount;
+
 
     public Transform Spawn()
     {
@@ -36,4 +38,9 @@ public class SpawnPoint : MonoBehaviour
         return bc.transform;
     }
 
+    public void PlaySound(AudioClip clip)
+    {
+        audioSource.clip = clip;
+        audioSource.Play();
+    }
 }

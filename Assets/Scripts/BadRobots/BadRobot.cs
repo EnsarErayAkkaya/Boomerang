@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class BadRobot : MonoBehaviour, IEnemy
@@ -21,6 +22,12 @@ public class BadRobot : MonoBehaviour, IEnemy
     public float minJumpInterval;
     public float sleepDuration;
 
+    [Header("Sounds")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip sleepSfx;
+    [SerializeField] private AudioClip wakeUpSfx;
+    [SerializeField] private AudioClip jumpSfx;
+
     private bool isActivated = true;
     private Transform player;
     private Vector2 moveVector;
@@ -32,14 +39,17 @@ public class BadRobot : MonoBehaviour, IEnemy
 
     public bool IsActivated => isActivated;
 
-    private void Start()
+    private async void Start()
     {
+        await Task.Delay(100);
         player = FindObjectOfType<CharacterController>().transform;
         StartCoroutine(ChooseDirection());
     }
 
     private void FixedUpdate()
     {
+        if (!isActivated) return;
+
         isGrounded = IsGrounded();
 
         if (!isGrounded)
@@ -112,6 +122,8 @@ public class BadRobot : MonoBehaviour, IEnemy
             boxCollider.isTrigger = true;
             moveVector.x = 0;
 
+            PlaySound(sleepSfx);
+
             //rb.bodyType = RigidbodyType2D.Static;
             animator.SetTrigger("Sleep");
             StartCoroutine(WaitingToWakeUp());
@@ -133,6 +145,8 @@ public class BadRobot : MonoBehaviour, IEnemy
         boxCollider.isTrigger = false;
         rb.bodyType = RigidbodyType2D.Dynamic;
         animator.SetTrigger("Wake");
+
+        PlaySound(wakeUpSfx);
         sleep = false;
     }
     private bool IsGrounded()
@@ -192,7 +206,8 @@ public class BadRobot : MonoBehaviour, IEnemy
         {
             lastJumpTime = Time.time;
             //Debug.Log("bot jump, hit: " + hit.collider.gameObject.name);
-            moveVector.y += jumpForce; 
+            moveVector.y += jumpForce;
+            PlaySound(jumpSfx);
         }
     }
     private void OnDrawGizmos()
@@ -206,6 +221,21 @@ public class BadRobot : MonoBehaviour, IEnemy
     public void ToggleActivation(bool isActivated)
     {
         this.isActivated = isActivated;
+
+        if (!isActivated)
+        {
+            animator.speed = 0;
+        }
+        else
+        {
+            animator.speed = 1;
+        }
+    }
+
+    public void PlaySound(AudioClip clip)
+    {
+        audioSource.clip = clip;
+        audioSource.Play();
     }
 }
 public enum BadRobotState

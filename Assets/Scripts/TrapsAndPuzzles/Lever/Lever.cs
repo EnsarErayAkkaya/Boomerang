@@ -9,6 +9,7 @@ public class Lever : MonoBehaviour
     private int activationCount = 0;
     public Animator animator;
     public List<NeedLever> needLever;
+    public AudioSource leverSfx;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -17,6 +18,9 @@ public class Lever : MonoBehaviour
             needLever.ForEach(s => s.OnLeverCall());
             activated = true;
             activationCount++;
+
+            leverSfx.Play();
+
             if(activationCount % 2 == 1)
                 animator.SetTrigger("hit");
             else

@@ -1,3 +1,5 @@
+using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,43 +10,53 @@ public class WoodPlatform : NeedLever
     public Vector2 pos1;
     public Vector2 pos2;
     public float angle;
-    public float speed;
+    public float moveDuration = 1;
+    public float waitDuration = 1;
+    public Ease ease = Ease.InOutSine;
+
+    private string id;
+
     private void Start()
     {
+        id = Guid.NewGuid().ToString();
         transform.rotation = Quaternion.Euler(0, 0, angle);
         transform.position = pos1;
         if (!useLever)
-            StartCoroutine(LoopPlatform());
+            LoopPlatform();
     }
-    IEnumerator LoopPlatform()
+    void LoopPlatform()
     {
         Vector2 goal = pos2;
+        Vector2 basePoint = pos1;
         float t = 0;
-        while(true)
+        if (Vector2.Distance((Vector2)transform.position, pos1) <= 0.1f)
         {
-            t += Time.deltaTime * speed;
-            transform.position = Vector2.Lerp(transform.position, goal, t);
-
-            if ((Vector2)transform.position == pos1)
-            {
-                goal = pos2;
-                t = 0;
-            }
-            else if ((Vector2)transform.position == pos2)
-            {
-                goal = pos1;
-                t = 0;
-            }
-            yield return null;
+            goal = pos2;
+            basePoint = pos1;
         }
+        else if (Vector2.Distance((Vector2)transform.position, pos2) <= 0.1f)
+        {
+            goal = pos1;
+            basePoint = pos2;
+        }
+
+        var sequence = DOTween.Sequence();
+
+        sequence.AppendInterval(waitDuration);
+        sequence.Append(transform.DOMove(goal, moveDuration).SetEase(ease));
+        sequence.AppendCallback(() => LoopPlatform());
     }
+
     public override void OnLeverCall()
     {
         base.OnLeverCall();
-        StartCoroutine(UsePlatformPlatformOnce());
+        UsePlatformPlatformOnce();
     }
-    IEnumerator UsePlatformPlatformOnce()
+
+    void UsePlatformPlatformOnce()
     {
+        DOTween.Kill(id + "platform_lever_call");
+
         Vector2 goal = pos2;
         float t = 0;
         if (Vector2.Distance((Vector2)transform.position, pos1) <= 0.1f)
@@ -55,12 +67,8 @@ public class WoodPlatform : NeedLever
         {
             goal = pos1;
         }
-        while (Vector2.Distance((Vector2)transform.position, goal) != 0f)
-        {
-            t += Time.deltaTime * speed;
-            transform.position = Vector2.MoveTowards(transform.position, goal, t);
-            yield return null;
-        }
+
+        transform.DOMove(goal, moveDuration).SetEase(Ease.InOutSine).SetId(id + "platform_lever_call");
     }
     private void OnDrawGizmos()
     {

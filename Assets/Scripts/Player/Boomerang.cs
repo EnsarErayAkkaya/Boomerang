@@ -10,6 +10,9 @@ public class Boomerang : MonoBehaviour
     [SerializeField] private bool isAutomatic = false;
     [SerializeField] private GameObject collisionParticle;
 
+    [Header("Sounds")]
+    [SerializeField] AudioSource wallHitSfx;
+
     private int multiplier = 1;
     private Rigidbody2D rb;
     private float speed;
@@ -18,6 +21,7 @@ public class Boomerang : MonoBehaviour
 
     public Collider2D Collider => collider;
     public SpriteRenderer SpriteRenderer => spriteRenderer;
+    public Rigidbody2D Rigidbody => rb;
 
     private void Awake()
     {
@@ -68,11 +72,15 @@ public class Boomerang : MonoBehaviour
             cc.GrabBoomerang();
         }
         else if (!collision.collider.CompareTag("Player"))
-            ReflectProjectile(collision.contacts[0].normal);
-
-        if (collision.transform.CompareTag("Wall"))
         {
-            OnCollidedWithWall(collision.contacts[0].point);
+            wallHitSfx.Play();
+
+            if (collision.transform.CompareTag("Wall"))
+            {
+                OnCollidedWithWall(collision.contacts[0].point);
+            }
+
+            ReflectProjectile(collision.contacts[0].normal);
         }
     }
 

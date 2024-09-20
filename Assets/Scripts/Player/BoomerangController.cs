@@ -8,12 +8,15 @@ public class BoomerangController : MonoBehaviour
     [SerializeField] private BoomerangData boomerangData;
     [SerializeField] private GrabCountUI grabCountUI;
 
+    [Header("Sounds")]
+    [SerializeField] private AudioClip boomerangGrabSfx;
+
     private int speedMultiplier = 1;
     private Boomerang boomerang = null;
     private CharacterController characterController;
     private Vector2 dir;
 
-    private Camera camera;
+    private new Camera camera;
     private bool controllerDisabled = false;
     private int grabCount;
     private bool hasBumerang = false;
@@ -45,6 +48,7 @@ public class BoomerangController : MonoBehaviour
         }
 
         grabCountUI.SetGrabCount(this.GrabCount);
+        grabCountUI.Show();
     }
     void Update()
     {
@@ -78,7 +82,7 @@ public class BoomerangController : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Tab))
             {
-                if (++SaveService.saveData.boomerang > SaveService.saveData.boomerangCount)
+                if (++SaveService.saveData.boomerang >= SaveService.saveData.boomerangCount)
                 {
                     SaveService.saveData.boomerang = 0;
                 }
@@ -119,6 +123,8 @@ public class BoomerangController : MonoBehaviour
     }
     public void GrabBoomerang()
     {
+        characterController.OnGrabBoomerang();
+
         if (!HasBumerang && GrabCount > 0)
         {
             Boomerang.SetBoomerang(boomerangData.boomerangDetails[SaveService.saveData.boomerang]);
@@ -128,6 +134,8 @@ public class BoomerangController : MonoBehaviour
             HasBumerang = true;
             GrabCount--;
             grabCountUI.SetGrabCount(GrabCount);
+
+            characterController.PlaySound(boomerangGrabSfx);
         }
         else if(GrabCount <= 0)
         {

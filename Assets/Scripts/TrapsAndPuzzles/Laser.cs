@@ -46,7 +46,10 @@ public class Laser : MonoBehaviour
                 RaycastHit2D hit = Physics2D.Linecast(transform.position, transform.position + pos, laserLayerMask);
                 if (hit.collider != null)
                 {
-                    hit.collider.GetComponent<CharacterController>().Die("Laser");
+                    if (hit.collider.TryGetComponent(out CharacterController character))
+                    {
+                        character.Die("Laser");
+                    }
                 }
 
                 yield return new WaitForFixedUpdate();
@@ -59,9 +62,6 @@ public class Laser : MonoBehaviour
     {
         laserCreateParticle.Play();
         float t = 0;
-        Vector2 origin;
-        float magn;
-        Vector2 size;
 
         while (t < 1)
         {
@@ -91,10 +91,6 @@ public class Laser : MonoBehaviour
         laserEndBeamParticle.Stop();
 
         float t = 0;
-
-        Vector2 origin;
-        float magn;
-        Vector2 size;
 
         while (t < 1)
         {

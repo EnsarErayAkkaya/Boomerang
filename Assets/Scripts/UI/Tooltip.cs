@@ -14,6 +14,7 @@ public class Tooltip : MonoBehaviour
     [SerializeField] private RectTransform pointer;
     [SerializeField] private float textRevealDuration;
     [SerializeField] private float appearDelay;
+    [SerializeField] private AudioSource audioSource;
 
     private bool skip;
     private bool upOriantation;
@@ -106,9 +107,18 @@ public class Tooltip : MonoBehaviour
             int nextLetterIndex = 0;
             int textLength = texts[currentTextIndex].Length;
 
+            float audioStartTime = Time.time;
+            audioSource.Play();
+
             while (nextLetterIndex < textLength)
             {
                 textUI.text += texts[currentTextIndex][nextLetterIndex++];
+
+                if (audioStartTime + audioSource.clip.length < Time.time)
+                {
+                    audioStartTime = Time.time;
+                    audioSource.Play();
+                }
 
                 if (skip == true)
                 {
@@ -117,6 +127,8 @@ public class Tooltip : MonoBehaviour
 
                 yield return new WaitForSeconds(textRevealDuration);
             }
+
+            audioSource.Stop();
 
             currentTextIndex++;
 

@@ -24,26 +24,46 @@ public class CharacterController : MonoBehaviour
     [SerializeField] private GameObject ragdoll;
     [SerializeField] private float ragdollSpawnForce;
 
+    [Header("Sounds")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip deathSfx;
+    [SerializeField] private AudioClip jumpSfx;
+    [SerializeField] private AudioClip walkSfx;
+    [SerializeField] private float walkSfxInterval;
+
     private bool characterDisabled = false;
     private bool isClimbing;
     private float x;
     private Vector2 moveVector;
     private bool isGrounded;
     private bool isCrouching;
+    private float lastWalkSfxTime;
 
     public BoxCollider2D BoxCollider => boxCollider;
     public BoomerangController BoomerangController => boomerangController;
     void Update()
     {
-        if (!isGrounded && !isClimbing)
-            moveVector.y -= gravity * Time.deltaTime;
-        else if (isGrounded && moveVector.y < 0)
-        {
-            moveVector.y = 0;
-        }
-
         if (!characterDisabled)
         {
+            if (!isGrounded && !isClimbing)
+                moveVector.y -= gravity * Time.deltaTime;
+            else if (isGrounded && moveVector.y < 0)
+            {
+                moveVector.y = 0;
+            }
+
+            if (isGrounded && !isCrouching && moveVector.x != 0)
+            {
+                if (lastWalkSfxTime + walkSfxInterval < Time.time)
+                {
+                    lastWalkSfxTime = Time.time;
+                    PlaySound(walkSfx, Random.Range(0.95f, 1.05f));
+                }
+            }
+            else
+            {
+                StopWalkSfx();
+            }
 
             if (Input.GetKeyDown(KeyCode.S) && !boomerangController.HasBumerang)
             {
@@ -75,6 +95,7 @@ public class CharacterController : MonoBehaviour
                 }
                 else if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && isGrounded)
                 {
+                    PlaySound(jumpSfx);
                     moveVector.y += jumpForce;
                 }
 
@@ -88,9 +109,12 @@ public class CharacterController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        isGrounded = IsGrounded();
-        if (!boomerangController.HasBumerang && !isCrouching)
-            rb.velocity = moveVector;
+        if (!characterDisabled)
+        {
+            isGrounded = IsGrounded();
+            if (!boomerangController.HasBumerang && !isCrouching)
+                rb.velocity = moveVector;
+        }
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -144,7 +168,11 @@ public class CharacterController : MonoBehaviour
 
     public void Die(string reason)
     {
-        Debug.Log("Diea reason: " + reason);
+        Debug.Log("Die reason: " + reason);
+
+        FindObjectOfType<SpawnPoint>().PlaySound(deathSfx);
+
+        FindObjectOfType<LevelManager>().SetPlayerDead();
 
         gameObject.SetActive(false);
 
@@ -168,10 +196,39 @@ public class CharacterController : MonoBehaviour
     public void DisableCharacter()
     {
         characterDisabled = true;
+
+        animator.speed = 0;
     }
 
     public void ActivateCharacter()
     {
         characterDisabled = false;
+
+        animator.speed = 1;
+    }
+
+    public void PlaySound(AudioClip clip, float pitch = 1)
+    {
+        audioSource.clip = clip;
+        audioSource.pitch = pitch;
+        audioSource.Play();
+    }
+
+    public void StopWalkSfx()
+    {
+        if (audioSource.clip == walkSfx)
+        {
+            audioSource.Stop();
+        }
+    }
+
+    public void OnGrabBoomerang()
+    {
+        StopWalkSfx();
+
+        moveVector = Vector3.zero;
+        animator.SetFloat("Speed", 0);
+        animator.SetFloat("JumpSpeed", 0);
+        animator.SetBool("isCrouching", false);
     }
 }

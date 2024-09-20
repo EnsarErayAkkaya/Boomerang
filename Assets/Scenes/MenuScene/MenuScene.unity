@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -596,6 +596,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!50 &34162627
 Rigidbody2D:
   serializedVersion: 4
@@ -7765,6 +7766,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!50 &644605192
 Rigidbody2D:
   serializedVersion: 4
@@ -14195,6 +14197,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!50 &1169986193
 Rigidbody2D:
   serializedVersion: 4
@@ -15239,6 +15242,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!50 &1254108435
 Rigidbody2D:
   serializedVersion: 4
@@ -19174,6 +19178,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!50 &1755865813
 Rigidbody2D:
   serializedVersion: 4
@@ -20955,6 +20960,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!50 &1878391090
 Rigidbody2D:
   serializedVersion: 4
@@ -23639,6 +23645,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!50 &2093007113
 Rigidbody2D:
   serializedVersion: 4
@@ -25265,6 +25272,7 @@ MonoBehaviour:
   collider: {fileID: 2996129442228732014}
   isAutomatic: 1
   collisionParticle: {fileID: 6868334143310383053, guid: 647cddfc1286e99df9ccbda1d53d7c44, type: 3}
+  wallHitSfx: {fileID: 0}
 --- !u!1 &2996129442228732012
 GameObject:
   m_ObjectHideFlags: 0
@@ -25283,7 +25291,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!58 &2996129442228732014
 CircleCollider2D:
   m_ObjectHideFlags: 0

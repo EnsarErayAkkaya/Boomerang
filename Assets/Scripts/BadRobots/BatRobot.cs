@@ -41,6 +41,11 @@ public class BatRobot : MonoBehaviour, IEnemy
     [SerializeField] private Animator animator;
     [SerializeField] private ParticleSystem[] flameParticles;
 
+    [Header("Sounds")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip sleepSfx;
+    [SerializeField] private AudioClip wakeUpSfx;
+    [SerializeField] private AudioClip shootSfx;
 
     private Transform player;
 
@@ -196,6 +201,8 @@ public class BatRobot : MonoBehaviour, IEnemy
             item.Stop();
         }
 
+        PlaySound(sleepSfx);
+
         animator.enabled = false;
 
         rigidbody.bodyType = RigidbodyType2D.Dynamic;
@@ -215,6 +222,8 @@ public class BatRobot : MonoBehaviour, IEnemy
     private IEnumerator WakeUpRoutine()
     {
         yield return new WaitForSeconds(sleepDuration);
+
+        PlaySound(wakeUpSfx);
 
         if (gameObject != null)
         {
@@ -266,6 +275,8 @@ public class BatRobot : MonoBehaviour, IEnemy
             instance.transform.position = shootTransform.position;
 
             instance.Set(dir);
+
+            PlaySound(shootSfx);
         }
     }
 
@@ -300,7 +311,22 @@ public class BatRobot : MonoBehaviour, IEnemy
 
     public void ToggleActivation(bool isActivated)
     {
-        throw new System.NotImplementedException();
+        this.isActivated = isActivated;
+        
+        if (!isActivated)
+        {
+            animator.speed = 0;
+        }
+        else
+        {
+            animator.speed = 1;
+        }
+    }
+
+    public void PlaySound(AudioClip clip)
+    {
+        audioSource.clip = clip;
+        audioSource.Play();
     }
 }
 public enum BatRobotState

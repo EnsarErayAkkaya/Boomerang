@@ -116,9 +116,10 @@ GameObject:
   m_Component:
   - component: {fileID: 760612300393013780}
   - component: {fileID: 760612300393013783}
+  - component: {fileID: 760612300393013769}
+  - component: {fileID: 3347627120149235735}
   - component: {fileID: 760612300393013781}
   - component: {fileID: 760612300393013782}
-  - component: {fileID: 760612300393013769}
   m_Layer: 6
   m_Name: character
   m_TagString: Player
@@ -172,6 +173,122 @@ MonoBehaviour:
   boxColliderNormalOffset: {x: 0, y: 0.5}
   ragdoll: {fileID: 8302206398852502089, guid: 7507aacbb664e3f4d8dcd721e1ee64f3, type: 3}
   ragdollSpawnForce: 3
+  audioSource: {fileID: 3347627120149235735}
+  deathSfx: {fileID: 8300000, guid: 99471d110e5e8564aaffc646b0850b04, type: 3}
+  jumpSfx: {fileID: 8300000, guid: 835b7d7c9196bd846899b76cf3818c01, type: 3}
+  walkSfx: {fileID: 8300000, guid: dab176c8376695c49b473cbeae2eb3cc, type: 3}
+  walkSfxInterval: 0.5
+--- !u!114 &760612300393013769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 760612300393013778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0c4a49d57082ad408d50fbadf54aad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boomerangData: {fileID: 11400000, guid: 36768f9ffc36cd44b98ad11fc19eb564, type: 2}
+  grabCountUI: {fileID: 8526769542295317933}
+  boomerangGrabSfx: {fileID: 8300000, guid: 3e7d1182cd6ca09459dee892677bc7fe, type: 3}
+--- !u!82 &3347627120149235735
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 760612300393013778}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 0.25
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!61 &760612300393013781
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -244,23 +361,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &760612300393013769
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 760612300393013778}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0c4a49d57082ad408d50fbadf54aad9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boomerangData: {fileID: 11400000, guid: 36768f9ffc36cd44b98ad11fc19eb564, type: 2}
-  grabCountUI: {fileID: 8526769542295317933}
-  characterController: {fileID: 760612300393013783}
-  grabCount: 2
-  hasBumerang: 1
 --- !u!1 &997364796619567860
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,6 +371,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3012933852151702703}
   - component: {fileID: 5306446546704283467}
+  - component: {fileID: 482236258824930072}
   m_Layer: 6
   m_Name: GrabCountParent
   m_TagString: Untagged
@@ -323,6 +424,18 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!225 &482236258824930072
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 997364796619567860}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1020074490839577754
 GameObject:
   m_ObjectHideFlags: 0
@@ -397,6 +510,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 535ad52185c454e48a8b9d15a30100f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 482236258824930072}
   grabCountTransform: {fileID: 3012933852151702703}
   grabCountPrefab: {fileID: 7965470102935884604, guid: 8e24a6b122ab1d94b89416c3ad9a0299, type: 3}
   extraGrabCountText: {fileID: 7561788871968431800}

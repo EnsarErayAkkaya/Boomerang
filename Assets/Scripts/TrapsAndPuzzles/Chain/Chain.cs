@@ -5,6 +5,10 @@ using UnityEngine;
 public class Chain : MonoBehaviour
 {
     public ChainLink[] chainLinks;
+
+    [Header("Sounds")]
+    [SerializeField] private AudioSource audioSource;
+
     private void Start()
     {
         chainLinks = new ChainLink[transform.childCount];
@@ -17,6 +21,8 @@ public class Chain : MonoBehaviour
 
     public void OnChainGethit(int index)
     {
+        audioSource.Play();
+
         for (int i = 0; i < chainLinks.Length; i++)
         {
             if(index == i) // hitted chainlink
